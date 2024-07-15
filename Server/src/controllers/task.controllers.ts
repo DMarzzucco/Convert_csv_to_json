@@ -3,7 +3,6 @@ import { upload } from "../middleware/multer";
 import { Readable } from "stream";
 import csvParser from "csv-parser";
 
-
 let userData: Array<Record<string, string>> = []
 
 export const uploadFile = [upload.single('file'), async (req: Request, res: Response) => {
@@ -39,7 +38,6 @@ export const uploadFile = [upload.single('file'), async (req: Request, res: Resp
         return res.status(500).json({ message: "Server error" })
     }
 }]
-
 export const getUser = async (req: Request, res: Response) => {
     const { q } = req.query
     if (!q) {
