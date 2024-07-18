@@ -89,3 +89,11 @@ export const putUsers = async (req: Request, res: Response) => {
         return res.status(500).json({ message: `Server ${error}` })
     }
 }
+export const getAllUser = async (_req: Request, res: Response) => {
+    try {
+        const result = await BsDate.query('SELECT * FROM convert_table')
+        return res.status(200).json({ data: result.rows })
+    } catch (error) {
+        return res.status(500).json({ message: error })
+    }
+}
