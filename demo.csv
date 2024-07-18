@@ -1,11 +1,11 @@
-id, Nombre, Edad, Departamento, Email
-1,Juan Perez,34, Ventas, juan.perez@example.com
+id,Nombre,Edad,Departamento,Email
+1,Juan Perez,34,Ventas,juan.perez@example.com
 2,Laura Jiménez,28,Marketing,laura.jimenez@example.com
 3,Pablo Hernandez,45,Recursos Humanos,ricardo.gonez@exanple.con
-4, Sofia Castro,30,IT,sofia.castro@example.com
+4,Sofia Castro,30,IT,sofia.castro@example.com
 5,Mario Ruiz,50,Finanzas,mario.ruizjexample.com
 6,Anа Torres,27,Ventas,ana.torres@exanple.con
 7,Luis Molina,31,Marketing,luis.molina@example.com
 8,Carmen Sánchez,29,Recursos Humanos,carmen.sanchez@example.com
-9 Carlas López,42,IT,carlos.lopez@example.com
-10,Irene Garcia,39,Finanzas, irene.garcia@example.com 
+9,Carlas López,42,IT,carlos.lopez@example.com
+10,Irene Garcia,39,Finanzas,irene.garcia@example.com 
