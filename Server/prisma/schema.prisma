@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  id           Int      @id @default(autoincrement())
+  Nombre       String   @db.VarChar(255)
+  Edad         Int
+  Departamento String
+  Email        String
+  create_time  DateTime @default(now())
+}
