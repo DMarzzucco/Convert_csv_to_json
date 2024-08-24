@@ -1,7 +1,8 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { TaskControllers } from "./task.controller";
 import { TaskService } from "./task.service";
 import { PrismaModules } from "../prisma/prisma.module"
+import { MulterMiddleware } from "./middlewares/multer.middleware";
 
 @Module({
     imports: [PrismaModules],
@@ -9,4 +10,8 @@ import { PrismaModules } from "../prisma/prisma.module"
     controllers: [TaskControllers],
     exports: [TaskService]
 })
-export class taskModule { }
+export class taskModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(MulterMiddleware).forRoutes("tasks")
+    }
+ }
