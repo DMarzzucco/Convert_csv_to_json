@@ -2,44 +2,31 @@ import { Controller, Get, Post, Put, Delete, Body, Param, NotFoundException, Htt
 import { Task } from "@prisma/client"
 import { TaskService } from "./task.service";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { Readable } from "stream";
-import csvParser from "csv-parser";
+import { CSVParserService } from "./service/csv-parser.service";
 
 @Controller("task")
 export class TaskControllers {
 
-    constructor(private readonly taskService: TaskService) { }
+    constructor(
+        private readonly taskService: TaskService,
+        private readonly csvParser:CSVParserService
+    ) { }
 
     @Post('upload')
-    @UseInterceptors(FileInterceptor("File"))
+    @UseInterceptors(FileInterceptor("file"))
     async uploadFile(@UploadedFile() file: Express.Multer.File) {
-        if (!File) {
+        if (!file) {
             throw new BadRequestException("File is required")
         }
         if (file.mimetype !== "text/csv") {
             throw new BadRequestException("File must be a CSV")
         }
-        let jsonResult: Array<Record<string, string>> = []
         try {
-            const CSV = Buffer.from(file.buffer).toString('utf-8')
-            await new Promise((resolve, reject) => {
-                const stream = Readable.from(CSV);
-                stream.pipe(csvParser())
-                    .on("data", (data) => jsonResult.push(data))
-                    .on("end", async () => {
-                        try {
-                            await this.taskService.insertUserForFile(jsonResult);
-                            resolve(jsonResult);
-                        } catch (error) {
-                            throw new InternalServerErrorException(error.message)
-                        }
-                    })
-                    .on('error', (error) => {
-                        reject(error)
-                        throw new InternalServerErrorException(error.message)
-                    })
-            })
+            const jsonResult = await this.csvParser.parse(file.buffer)
+            await this.taskService.insertUserForFile(jsonResult)
+            return { message: `File porcessed and data inserted successfully` };
         } catch (error) {
+            console.log(error.message, "error linea 46")
             throw new InternalServerErrorException(error.message)
         }
     }
@@ -94,5 +81,11 @@ export class TaskControllers {
         } catch (error) {
             throw new NotFoundException(error.message)
         }
+    }
+
+    @Delete()
+    @HttpCode(204)
+    async deleteAll() {
+        return this.taskService.delete_all()
     }
 }

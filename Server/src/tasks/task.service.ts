@@ -1,25 +1,23 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { Task } from "@prisma/client"
-
-export interface DateUsers {
-    Nombre: String;
-    Edad: string;
-    Departamento: string;
-    Email: string
-}
+import { ITaskService } from "./interface/task.service.interface";
+import { TaskValidator } from "./validator/task.validator";
 
 @Injectable()
-export class TaskService {
+export class TaskService implements ITaskService {
 
-    constructor(private prisma: PrismaService) { }
+    constructor(
+        private prisma: PrismaService,
+        private validate: TaskValidator
+    ) { }
 
     async insertUserForFile(data: Array<Record<string, string>>): Promise<Task[]> {
         const insert = data.map(row => {
-            const { Nombre, Edad, Departamento, Email } = row;
-            if (!Nombre || !Edad || !Departamento || !Email) {
+            if (!this.validate.validate(row)) {
                 throw new NotFoundException(`Invalid Data: ${JSON.stringify(row)}`)
             }
+            const { Nombre, Edad, Departamento, Email } = row;
             return this.prisma.task.create({ data: { Nombre, Edad, Departamento, Email } })
         })
         return Promise.all(insert)
@@ -38,7 +36,11 @@ export class TaskService {
         })
     }
     async getAllTask(): Promise<Task[]> {
-        return this.prisma.task.findMany();
+        const data = await this.prisma.task.findMany();
+        if (data.length === 0){
+            throw new NotFoundException('Not data')
+        }
+        return data;
     }
 
     async getTask(id: number): Promise<Task> {
@@ -65,5 +67,8 @@ export class TaskService {
             throw new NotFoundException(`User with ID ${id} not found`)
         }
         return result
+    }
+    async delete_all(): Promise<void> {
+        await this.prisma.task.deleteMany()
     }
 }
