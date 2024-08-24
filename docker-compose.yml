@@ -25,5 +25,13 @@ services:
       - ./server:/app
       - /app/node_modules
 
+  client:
+    build: ./client
+    ports:
+      - "5000:3000"
+    volumes:
+      - ./client:/app
+      - /client/node_modules
+
 volumes:
   postgres-data:
