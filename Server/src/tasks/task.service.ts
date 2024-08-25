@@ -37,9 +37,9 @@ export class TaskService implements ITaskService {
     }
     async getAllTask(): Promise<Task[]> {
         const data = await this.prisma.task.findMany();
-        if (data.length === 0){
-            throw new NotFoundException('Not data')
-        }
+        // if (data.length === 0){
+        //     throw new NotFoundException('Not data')
+        // }
         return data;
     }
 

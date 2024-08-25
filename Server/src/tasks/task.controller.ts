@@ -26,7 +26,6 @@ export class TaskControllers {
             await this.taskService.insertUserForFile(jsonResult)
             return { message: `File porcessed and data inserted successfully` };
         } catch (error) {
-            console.log(error.message, "error linea 46")
             throw new InternalServerErrorException(error.message)
         }
     }
