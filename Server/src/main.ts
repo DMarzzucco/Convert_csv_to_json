@@ -13,10 +13,9 @@ async function bootstrap() {
   }
 
   const config = new DocumentBuilder()
-    .setTitle('Cats expample')
-    .setDescription('The cats Api Description')
+    .setTitle('Convert CSV to JSON ')
+    .setDescription('ApiREst')
     .setVersion('1.0')
-    .addTag("cats")
     .build();
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api', app, document)

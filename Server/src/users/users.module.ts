@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
-import { PrismaModules } from 'src/prisma/prisma.module';
+import { PrismaModules } from '../prisma/prisma.module';
 import { usersValidator } from './validator/users.validator';
 import { CSVParserService } from './service/csv-parser.service';
 import { MulterMiddleware } from './middleware/multer.middleware';

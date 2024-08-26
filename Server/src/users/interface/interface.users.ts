@@ -20,3 +20,5 @@ export interface IUsersService {
 
     removeAll(): Promise<void>;
 }
+
+export interface FileProps { [key: string]: string }

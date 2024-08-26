@@ -2,8 +2,8 @@ import { ConflictException, Injectable, InternalServerErrorException, NotFoundEx
 import { createUser } from './dto/create-user.dto';
 import { updateUser } from './dto/update-user.dto';
 import { Prisma, Task } from "@prisma/client"
-import { IUsersService } from './interface/interface.users';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { FileProps, IUsersService } from './interface/interface.users';
+import { PrismaService } from '../prisma/prisma.service';
 import { usersValidator } from './validator/users.validator';
 
 
@@ -15,7 +15,7 @@ export class UsersService implements IUsersService {
     private validate: usersValidator
   ) { }
 
-  async insertFile(data: Array<Record<string, string>>): Promise<Task[]> {
+  async insertFile(data: FileProps[]): Promise<Task[]> {
     const insert = data.map(row => {
       if (!this.validate.validate(row)) {
         throw new NotFoundException(`Invalid Data: ${JSON.stringify(row)}`)
@@ -27,7 +27,7 @@ export class UsersService implements IUsersService {
   }
 
   async findByQuerie(query: string): Promise<Task[]> {
-    return this.prisma.task.findMany({
+    const result = await this.prisma.task.findMany({
       where: {
         OR: [
           { Nombre: { contains: query, mode: "insensitive" } },
@@ -37,7 +37,12 @@ export class UsersService implements IUsersService {
         ]
       }
     })
+    if (result.length === 0) {
+      throw new NotFoundException("Not found")
+    }
+    return result
   }
+
   async findAll(): Promise<Task[]> {
     return await this.prisma.task.findMany()
   }

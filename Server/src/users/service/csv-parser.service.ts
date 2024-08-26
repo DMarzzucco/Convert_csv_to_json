@@ -1,13 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import { Readable } from "stream";
 import * as csvParser from "csv-parser"
+import { FileProps } from "../interface/interface.users";
 
 @Injectable()
 export class CSVParserService {
-    async parse(buffer: Buffer): Promise<Array<Record<string, string>>> {
-        return new Promise<Array<Record<string, string>>>((resolve, rejects) => {
+    async parse(buffer: Buffer): Promise<FileProps[]> {
+        return new Promise<FileProps[]>((resolve, rejects) => {
 
-            const json: Array<Record<string, string>> = []
+            const json: FileProps[] = []
             const CSV = Buffer.from(buffer).toString('utf-8');
             const stream = Readable.from(CSV);
             stream
