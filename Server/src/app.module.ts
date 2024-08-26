@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from "@nestjs/config"
-import { taskModule } from './tasks/task.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [taskModule, ConfigModule.forRoot({ isGlobal: true })],
+  imports: [ ConfigModule.forRoot({ isGlobal: true }), UsersModule],
   controllers: [],
   providers: [],
 })

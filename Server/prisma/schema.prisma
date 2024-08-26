@@ -9,9 +9,10 @@ datasource db {
 
 model Task {
   id           Int      @id @default(autoincrement())
-  Nombre       String   @db.VarChar(255)
+  Nombre       String   @unique @db.VarChar(255)
   Edad         String
   Departamento String
   Email        String
   create_time  DateTime @default(now())
+  update_time  DateTime @default(now())
 }
