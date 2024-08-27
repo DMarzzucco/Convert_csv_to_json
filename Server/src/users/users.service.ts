@@ -16,43 +16,59 @@ export class UsersService implements IUsersService {
   ) { }
 
   async insertFile(data: FileProps[]): Promise<Task[]> {
-    const insert = data.map(row => {
-      if (!this.validate.validate(row)) {
-        throw new NotFoundException(`Invalid Data: ${JSON.stringify(row)}`)
-      }
-      const { Nombre, Edad, Departamento, Email } = row
-      return this.prisma.task.create({ data: { Nombre, Edad, Departamento, Email } })
-    })
-    return Promise.all(insert)
+    try {
+      const insert = data.map(row => {
+        if (!this.validate.validate(row)) {
+          throw new NotFoundException(`Invalid Data: ${JSON.stringify(row)}`)
+        }
+        const { Nombre, Edad, Departamento, Email } = row
+        return this.prisma.task.create({ data: { Nombre, Edad, Departamento, Email } })
+      })
+      return Promise.all(insert)
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
+    }
   }
 
   async findByQuerie(query: string): Promise<Task[]> {
-    const result = await this.prisma.task.findMany({
-      where: {
-        OR: [
-          { Nombre: { contains: query, mode: "insensitive" } },
-          { Departamento: { contains: query, mode: "insensitive" } },
-          { Email: { contains: query, mode: "insensitive" } },
-          { Edad: { contains: query, mode: "insensitive" } },
-        ]
+    try {
+      const result = await this.prisma.task.findMany({
+        where: {
+          OR: [
+            { Nombre: { contains: query, mode: "insensitive" } },
+            { Departamento: { contains: query, mode: "insensitive" } },
+            { Email: { contains: query, mode: "insensitive" } },
+            { Edad: { contains: query, mode: "insensitive" } },
+          ]
+        }
+      })
+      if (result.length === 0) {
+        throw new NotFoundException("Not found")
       }
-    })
-    if (result.length === 0) {
-      throw new NotFoundException("Not found")
+      return result
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
     }
-    return result
   }
 
   async findAll(): Promise<Task[]> {
-    return await this.prisma.task.findMany()
+    try {
+      return await this.prisma.task.findMany()
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
+    }
   }
 
   async findOne(id: number): Promise<Task> {
-    const result = await this.prisma.task.findUnique({ where: { id: id } })
-    if (!result) {
-      throw new NotFoundException(`User with id ${id} not found`)
+    try {
+      const result = await this.prisma.task.findUnique({ where: { id: id } })
+      if (!result) {
+        throw new NotFoundException(`User with id ${id} not found`)
+      }
+      return result;
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
     }
-    return result;
   }
 
   async create(data: createUser): Promise<createUser> {
@@ -70,23 +86,35 @@ export class UsersService implements IUsersService {
   }
 
   async update(id: number, data: updateUser): Promise<updateUser> {
-    const result = await this.prisma.task.update({ where: { id: id }, data: data })
-    if (!result) {
-      throw new NotFoundException(`User with id ${id} not found`)
+    try {
+      const result = await this.prisma.task.update({ where: { id: id }, data: data })
+      if (!result) {
+        throw new NotFoundException(`User with id ${id} not found`)
+      }
+      return result
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
     }
-    return result
   }
 
   async remove(id: number): Promise<Task> {
-    const result = await this.prisma.task.delete({ where: { id } })
-    if (!result) {
-      throw new NotFoundException(`User with ID ${id} not found`)
+    try {
+      const result = await this.prisma.task.delete({ where: { id } })
+      if (!result) {
+        throw new NotFoundException(`User with ID ${id} not found`)
+      }
+      return result
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
     }
-    return result
   }
 
   async removeAll(): Promise<void> {
-    await this.prisma.task.deleteMany()
+    try {
+      await this.prisma.task.deleteMany()
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
+    }
   }
 
 }

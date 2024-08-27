@@ -18,12 +18,34 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+input {
+  background-color: rgb(52, 57, 63);
+  margin: 2px;
+  padding: 10px;
+  border-radius: 10px;
+}
+label{
+  font-size: 20px;
+  font-weight: bold;
+}
+button {
+  border: 1px solid rgb(182, 180, 180);
+  width: 100%;
+  margin:6px;
+  padding: 10px;
+  border-radius: 10px; 
+}
+.detailsCard{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4px;
 }
 
 @layer utilities {

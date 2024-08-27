@@ -84,7 +84,7 @@ export class UsersController {
   @ApiResponse({ status: 404, description: "Not foun user" })
   @ApiResponse({ status: 500, description: "Interanl server error" })
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+    return this.usersService.findOne(Number(id));
   }
 
   @Post()
@@ -109,7 +109,7 @@ export class UsersController {
   @ApiResponse({ status: 404, description: 'User not found' })
   @ApiResponse({ status: 500, description: 'Internal server error' })
   update(@Param('id') id: string, @Body() data: updateUser) {
-    return this.usersService.update(+id, data);
+    return this.usersService.update(Number(id), data);
   }
 
   @Delete(':id')
@@ -123,7 +123,7 @@ export class UsersController {
   @ApiResponse({ status: 404, description: 'User not found' })
   @ApiResponse({ status: 500, description: 'Internal server error' })  
   remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+    return this.usersService.remove(Number(id));
   }
 
   @Delete()
