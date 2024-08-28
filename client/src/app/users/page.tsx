@@ -1,5 +1,5 @@
 import { ParamsProp } from "@/interface/interface";
-import UserForm from "../ui/form";
+import UserForm from "../components/form";
 import { detailsUsers } from "../api/api.response";
 
 

@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, BadRequestException, InternalServerErrorException, Query, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, BadRequestException, InternalServerErrorException, Query, NotFoundException, Res } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { createUser } from './dto/create-user.dto';
 import { updateUser } from './dto/update-user.dto';
 import { CSVParserService } from './service/csv-parser.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 
 @ApiTags("Users Ops")
 @Controller('users')
@@ -14,6 +15,21 @@ export class UsersController {
     private readonly usersService: UsersService,
     private readonly csv: CSVParserService
   ) { }
+
+  @Get("download")
+  async downloadCSV(@Res() res: Response) {
+    try {
+      const data = await this.usersService.findAll();
+      const field = await this.csv.downloadFile(data)
+
+      res.header("Content-Type", "text/csv")
+      res.header("Content-Disposition", "attachment; filename=Userdata.csv")
+      res.send(field)
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
+    }
+  }
+
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
@@ -88,21 +104,21 @@ export class UsersController {
   }
 
   @Post()
-  @ApiOperation({summary:"Create a new users"})
-  @ApiResponse({status:200, description:"User create"})
-  @ApiResponse({status:400, description:"Invalid date"})
-  @ApiResponse({status:409, description:"Repeated Name"})
-  @ApiResponse({status:500, description:"Internal Error Server"})
+  @ApiOperation({ summary: "Create a new users" })
+  @ApiResponse({ status: 200, description: "User create" })
+  @ApiResponse({ status: 400, description: "Invalid date" })
+  @ApiResponse({ status: 409, description: "Repeated Name" })
+  @ApiResponse({ status: 500, description: "Internal Error Server" })
   create(@Body() data: createUser) {
     return this.usersService.create(data);
   }
 
   @Patch(':id')
-  @ApiOperation({summary:"Update an existing user"})
+  @ApiOperation({ summary: "Update an existing user" })
   @ApiParam({
-    name:"id",
-    description:"User id",
-    type:Number
+    name: "id",
+    description: "User id",
+    type: Number
   })
   @ApiResponse({ status: 200, description: 'User updated successfully' })
   @ApiResponse({ status: 400, description: 'Invalid user data' })
@@ -113,23 +129,23 @@ export class UsersController {
   }
 
   @Delete(':id')
-  @ApiOperation({summary:"Delete a user by his ID"})
+  @ApiOperation({ summary: "Delete a user by his ID" })
   @ApiParam({
-    name:"id",
-    description:"User id",
-    type:Number
+    name: "id",
+    description: "User id",
+    type: Number
   })
   @ApiResponse({ status: 204, description: 'User updated successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
-  @ApiResponse({ status: 500, description: 'Internal server error' })  
+  @ApiResponse({ status: 500, description: 'Internal server error' })
   remove(@Param('id') id: string) {
     return this.usersService.remove(Number(id));
   }
 
   @Delete()
-  @ApiOperation({summary:"Delete All Users in data base"})
-  @ApiResponse({status:204, description:"All users deleted successfully"})
-  @ApiResponse({ status: 500, description: 'Internal server error' })  
+  @ApiOperation({ summary: "Delete All Users in data base" })
+  @ApiResponse({ status: 204, description: "All users deleted successfully" })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
   removeAll() {
     return this.usersService.removeAll()
   }

@@ -1,11 +1,16 @@
 "use client";
 
+import UiComps from "@/components/ui/comp.ui";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { Upload } from "../api/api.response";
 
 export default function UploadFile() {
 
+    const err = new UiComps()
+
     const [file, setFile] = React.useState<File | null>(null)
+    const [error, setError] = React.useState<boolean>(false)
 
     const router = useRouter()
 
@@ -21,18 +26,16 @@ export default function UploadFile() {
             alert("Please select a file")
             return;
         }
+        if (file.type !== "text/csv") {
+            setError(true)
+            const timer = setTimeout(() => { setError(false) }, 1000)
+            return () => clearTimeout(timer)
+        }
         const formData = new FormData()
         formData.append('file', file);
         try {
-            const res = await fetch("http://localhost:3001/api/users/upload", {
-                method: "POST",
-                body: formData
-            })
-            if (res.ok) {
-                await res.json()
-                router.refresh()
-                // alert(data.message)
-            }
+            await Upload(formData)
+            router.refresh()
         } catch (error: any) {
             alert(`Error: ${(error as Error).message}`)
         }
@@ -51,6 +54,7 @@ export default function UploadFile() {
                     Deploy
                 </button>
             )}
+            {error && (<err.ErrorUpload />)}
         </form>
     )
 }

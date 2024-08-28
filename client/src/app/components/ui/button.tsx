@@ -1,12 +1,14 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { deleteAll, deleteUser } from "../api/api.response"
-import { UserParams } from "@/interface/interface"
+import { deleteAll, deleteUser, downloadField } from "../../api/api.response"
+import { actions, UserParams } from "@/interface/interface"
 
 
-export const Button: React.FC = () => {
+
+export const EmptyButton: React.FC = () => {
     const router = useRouter()
+
     const handleSubmit = async () => {
         await deleteAll();
         router.refresh()
@@ -40,4 +42,27 @@ export const ButtonsCard: React.FC<UserParams> = ({ user }: any) => {
             </button>
         </div>
     )
+}
+
+export const DownloadButton: React.FC<actions> = ({ users }: any) => {
+
+    const handleDownload = async () => {
+        try {
+            const data = await downloadField();
+            const url = window.URL.createObjectURL(data)
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "Userdata.csv";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        } catch (error: any) {
+            throw new Error(`Error in button download ${error.messsage}`)
+        }
+    }
+    return (users && users.length > 0 ? (
+        <button onClick={handleDownload}>
+            Download CSV
+        </button>
+    ) : null)
 }

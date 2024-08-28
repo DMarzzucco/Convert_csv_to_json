@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
+import { Querysearch } from "../../api/api.response";
+import { actions } from "@/interface/interface";
 
-export default function SearchBar() {
+export const SearchBar: React.FC<actions> = ({ users }) => {
 
     const [query, setQuery] = useState<string>('')
     const [results, setResults] = useState<any[]>([]);
@@ -13,23 +15,14 @@ export default function SearchBar() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-
-        if (!query) {
-            alert("Please enter a search query");
-            return;
-        }
-
         try {
-            const res = await fetch(`http://localhost:3001/api/users/search?q=${encodeURIComponent(query)}`)
-            if (res.ok) {
-                const data = await res.json()
-                setResults(data)
-            }
+            const data = await Querysearch(query)
+            setResults(data)
         } catch (error: any) {
             throw new Error(error.message)
         }
     }
-    return (
+    return (users && users.length > 0 ? (
         <div>
             <form onSubmit={handleSubmit} className="w-full flex justify-center items-center">
                 <input
@@ -57,5 +50,5 @@ export default function SearchBar() {
                 ) : null}
             </div>
         </div>
-    )
+    ) : null)
 }

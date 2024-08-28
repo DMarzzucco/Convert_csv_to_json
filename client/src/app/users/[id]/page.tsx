@@ -1,5 +1,5 @@
 import { detailsUsers } from "@/app/api/api.response"
-import { ButtonsCard } from "@/app/ui/button";
+import { ButtonsCard } from "@/app/components/ui";
 
 export default async function UsersDetails({ params }:any) {
     const users = await detailsUsers(params.id);

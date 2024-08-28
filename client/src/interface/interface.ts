@@ -6,7 +6,8 @@ export interface Users {
     Email: string;
 }
 export interface ParamsProp { params: { id: number; } }
-
+export interface ErrorInputProps {name:string}
+export interface actions { users: any[] }
 export interface UserParams{
     user:Users
 }
