@@ -6,14 +6,16 @@ import { actions, UserParams } from "@/interface/interface"
 
 
 
-export const EmptyButton: React.FC = () => {
+export const EmptyButton: React.FC<actions> = ({ users }) => {
     const router = useRouter()
 
     const handleSubmit = async () => {
         await deleteAll();
         router.refresh()
     }
-    return (<button className="bg-red-600" onClick={handleSubmit}>Empty List</button>)
+    return (users && users.length > 0 ? (
+        <button className="bg-red-600" onClick={handleSubmit}>Empty List</button>
+    ) : null)
 }
 
 export const ButtonsCard: React.FC<UserParams> = ({ user }: any) => {

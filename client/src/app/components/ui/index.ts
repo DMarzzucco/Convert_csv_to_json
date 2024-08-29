@@ -1,3 +1,3 @@
 export * from "./button";
-export * from "./listUsers"
+export {default as ListUsers} from "./listUsers"
 export * from "./searchBar"

@@ -14,9 +14,12 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   server:
-    build: ./server
+    build:
+      context: ./server
+      args:
+         DATABASE_URL: postgres://user:password@db:5432/data_base
     ports:
-      - "4000:3000"
+      - "3001:3001"
     depends_on:
       - db
     environment:
@@ -28,7 +31,7 @@ services:
   client:
     build: ./client
     ports:
-      - "5000:3000"
+      - "3000:3000"
     volumes:
       - ./client:/app
       - /client/node_modules

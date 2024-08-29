@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { ButtonsCard } from "./button";
 
-export function ListUsers({ user }: any) {
+export default function ListUsers({ user }: any) {
     const router = useRouter()
     return (
         <div onClick={() => { router.push(`/users/${user.id}`) }}
