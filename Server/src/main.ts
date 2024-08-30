@@ -16,6 +16,7 @@ async function bootstrap() {
     .setTitle('Convert CSV to JSON ')
     .setDescription('ApiREst')
     .setVersion('1.0')
+    .addServer("/api")
     .build();
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api', app, document)

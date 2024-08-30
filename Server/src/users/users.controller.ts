@@ -1,13 +1,11 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, BadRequestException, InternalServerErrorException, Query, NotFoundException, Res } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { createUser } from './dto/create-user.dto';
-import { updateUser } from './dto/update-user.dto';
+import { ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CSVParserService } from './service/csv-parser.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CreateUsresDTO, UpdateUsersDTO } from './dto';
+import { UsersService } from './users.service';
 import { Response } from 'express';
 
-@ApiTags("Users Ops")
 @Controller('users')
 export class UsersController {
 
@@ -16,6 +14,14 @@ export class UsersController {
     private readonly csv: CSVParserService
   ) { }
 
+  /**
+   * Download CSV
+   * @param res 
+   */
+  @ApiTags("Download CSV")
+  @ApiOperation({ summary: "Download all users data as a CSV file" })
+  @ApiResponse({ status: 200, description: 'CSV file downloaded successfully' })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
   @Get("download")
   async downloadCSV(@Res() res: Response) {
     try {
@@ -29,19 +35,33 @@ export class UsersController {
       throw new InternalServerErrorException(error.message)
     }
   }
-
-
+  /**
+   * Upload a CSV to Date Base
+   * @param file 
+   * @returns 
+   */
+  @ApiTags("Upload CSV")
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({ summary: "Upload a CSV file with user data" })
+  @ApiConsumes('multipart/form-data')
   @ApiBody({
     description: "CSV file to upload",
-    type: "multipart/form-data",
-    required: true
+    required: true,
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: "string",
+          format: "binary",
+          description: "The CSV file to upload"
+        }
+      }
+    }
   })
-  @ApiResponse({ status: 200, description: "File upload successfully" })
+  @ApiResponse({ status: 201, description: "File upload successfully" })
   @ApiResponse({ status: 404, description: "Missing file" })
-  @ApiResponse({ status: 400, description: "Invalid fily type" })
+  @ApiResponse({ status: 400, description: "Invalid file type" })
   @ApiResponse({ status: 500, description: "Internal server error" })
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
     if (!file) {
@@ -59,8 +79,14 @@ export class UsersController {
     }
   }
 
+  /**
+   * Search data under a Query params
+   * @param q 
+   * @returns 
+   */
+  @ApiTags("Get Data")
   @Get("search")
-  @ApiOperation({ summary: "Search users by query" })
+  @ApiOperation({ summary: "Search users by query params" })
   @ApiQuery({
     name: "q",
     required: true,
@@ -81,6 +107,11 @@ export class UsersController {
     }
   }
 
+  /**
+   * Show all data
+   * @returns 
+   */
+  @ApiTags("Get Data")
   @Get()
   @ApiOperation({ summary: "Get all data from data base" })
   @ApiResponse({ status: 200, description: "Show the list of alls users" })
@@ -88,7 +119,12 @@ export class UsersController {
   findAll() {
     return this.usersService.findAll();
   }
-
+  /**
+   * Search users by Id
+   * @param id 
+   * @returns 
+   */
+  @ApiTags("Get Data")
   @Get(':id')
   @ApiOperation({ summary: "Get a users by his ID" })
   @ApiParam({
@@ -102,17 +138,32 @@ export class UsersController {
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(Number(id));
   }
-
+  /**
+   * Create a new Users
+   * @param data 
+   * @returns 
+   */
+  @ApiTags("Create new User")
   @Post()
   @ApiOperation({ summary: "Create a new users" })
-  @ApiResponse({ status: 200, description: "User create" })
+  @ApiBody({
+    description: "Data to create a new user",
+    type: CreateUsresDTO
+  })
+  @ApiResponse({ status: 201, description: "User create successfully" })
   @ApiResponse({ status: 400, description: "Invalid date" })
   @ApiResponse({ status: 409, description: "Repeated Name" })
   @ApiResponse({ status: 500, description: "Internal Error Server" })
-  create(@Body() data: createUser) {
+  create(@Body() data: CreateUsresDTO) {
     return this.usersService.create(data);
   }
-
+  /**
+   * Update an existing users
+   * @param id 
+   * @param data 
+   * @returns 
+   */
+  @ApiTags("Update")
   @Patch(':id')
   @ApiOperation({ summary: "Update an existing user" })
   @ApiParam({
@@ -120,14 +171,23 @@ export class UsersController {
     description: "User id",
     type: Number
   })
+  @ApiBody({
+    description: "Data to update a user",
+    type: UpdateUsersDTO
+  })
   @ApiResponse({ status: 200, description: 'User updated successfully' })
   @ApiResponse({ status: 400, description: 'Invalid user data' })
   @ApiResponse({ status: 404, description: 'User not found' })
   @ApiResponse({ status: 500, description: 'Internal server error' })
-  update(@Param('id') id: string, @Body() data: updateUser) {
+  update(@Param('id') id: string, @Body() data: UpdateUsersDTO) {
     return this.usersService.update(Number(id), data);
   }
-
+  /**
+   * Delete a users by Id
+   * @param id 
+   * @returns 
+   */
+  @ApiTags("Delete")
   @Delete(':id')
   @ApiOperation({ summary: "Delete a user by his ID" })
   @ApiParam({
@@ -135,13 +195,17 @@ export class UsersController {
     description: "User id",
     type: Number
   })
-  @ApiResponse({ status: 204, description: 'User updated successfully' })
+  @ApiResponse({ status: 204, description: 'User deleted successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
   @ApiResponse({ status: 500, description: 'Internal server error' })
   remove(@Param('id') id: string) {
     return this.usersService.remove(Number(id));
   }
-
+  /**
+   * Delete a data in data_base
+   * @returns 
+   */
+  @ApiTags("Delete")
   @Delete()
   @ApiOperation({ summary: "Delete All Users in data base" })
   @ApiResponse({ status: 204, description: "All users deleted successfully" })

@@ -22,9 +22,12 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## User Management API
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This is a user management API built with NestJS and TypeScript. The API provides a series of endpoints to handle CRUD operations on user data, as well as the ability to upload and download CSV files to import and export user data.
+
+## API Documentation
+The API is documented using Swagger. You can access the full documentation by visiting ```/api-docs``` on your server after launching the application.
 
 ## Installation
 
@@ -35,6 +38,12 @@ $ npm install
 ## Running the app
 
 ```bash
+# generate prisma
+$ npx prisma generate
+
+# migrate prisma
+$ npx prisma migrate deploy
+
 # development
 $ npm run start
 
@@ -57,17 +66,14 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+Port: ```3001```
 
-## Support
+## Requirements
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Nodejs
+- Nestjs
+- PostgreSQL
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+Made by Dario Marzzucco.

@@ -1,10 +1,9 @@
 import { Task } from "@prisma/client"
-import { createUser } from "../dto/create-user.dto";
-import { updateUser } from "../dto/update-user.dto";
+import { CreateUsresDTO, UpdateUsersDTO } from "../dto";
 
 export interface IUsersService {
 
-    insertFile(data: Array<Record<string, string>>): Promise<createUser[]>;
+    insertFile(data: Array<Record<string, string>>): Promise<CreateUsresDTO[]>;
 
     findByQuerie(query: string): Promise<Task[]>;
 
@@ -12,9 +11,9 @@ export interface IUsersService {
 
     findOne(id: number): Promise<Task>;
 
-    create(data: createUser): Promise<createUser>;
+    create(data: CreateUsresDTO): Promise<CreateUsresDTO>;
 
-    update(id: number, data: updateUser): Promise<updateUser>;
+    update(id: number, data: UpdateUsersDTO): Promise<UpdateUsersDTO>;
 
     remove(id: number): Promise<Task>;
 

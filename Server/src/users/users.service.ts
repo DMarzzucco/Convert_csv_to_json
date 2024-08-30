@@ -1,10 +1,9 @@
 import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { createUser } from './dto/create-user.dto';
-import { updateUser } from './dto/update-user.dto';
 import { Prisma, Task } from "@prisma/client"
 import { FileProps, IUsersService } from './interface/interface.users';
 import { PrismaService } from '../prisma/prisma.service';
 import { usersValidator } from './validator/users.validator';
+import { CreateUsresDTO, UpdateUsersDTO } from './dto';
 
 
 @Injectable()
@@ -71,7 +70,7 @@ export class UsersService implements IUsersService {
     }
   }
 
-  async create(data: createUser): Promise<createUser> {
+  async create(data: CreateUsresDTO): Promise<CreateUsresDTO> {
     try {
       const result = await this.prisma.task.create({ data: data });
       return result;
@@ -85,7 +84,7 @@ export class UsersService implements IUsersService {
     }
   }
 
-  async update(id: number, data: updateUser): Promise<updateUser> {
+  async update(id: number, data: UpdateUsersDTO): Promise<UpdateUsersDTO> {
     try {
       const result = await this.prisma.task.update({ where: { id: id }, data: data })
       if (!result) {
