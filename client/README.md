@@ -10,11 +10,8 @@ you can download the file again.
   <a href="https://www.typescriptlang.org/" target="blank"><img src="https://cdn.iconscout.com/icon/free/png-256/free-typescript-3521774-2945272.png" width="110" alt="TypeScript" style="border-radius:19px; margin-left:10px" /></a>
 </p>
 
-## Before to Started
-
-Before starting the application you must start the server along with the database, for this you must use Docker to start
-the database ``` docker-compose up db ``` and for the server you must enter its folder ```./Server``` and follow the
-procedures indicated in the documentation.
+> [!NOTE]
+> Before starting the application you must start the server along with the database, for this you must use Docker to start the database ``` docker-compose up db ``` and for the server you must enter its folder ```./Server``` and follow the procedures indicated in the documentation.
 
 ## Getting Started
 

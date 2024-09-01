@@ -10,12 +10,11 @@ This is a user management API built with [NestJS](https://docs.nestjs.com/),  [T
 </p>
 
 ## API Documentation
-The API is documented using Swagger. You can access the full documentation by visiting ```/api-docs``` on your server after launching the application.
+The API is documented using Swagger. You can access the full documentation by visiting Port: [/api/#/](http://localhost:3001/api/#/)
+ on your server after launching the application.
 
-## Before to Started
-
-Before starting the application you must start the server along with the database, for this you must use Docker to start
-the database ``` docker-compose up db ```.
+> [!NOTE]
+> Before starting the application you must start the server along with the database, for this you must use Docker to start the database ``` docker-compose up db ```.
 
 ## Installation
 
