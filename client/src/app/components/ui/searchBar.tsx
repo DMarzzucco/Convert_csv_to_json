@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { actions, Users } from "@/interface/interface";
+import { Users } from "@/interface/interface";
 import { useLocalContext } from "@/app/context/local.context";
-import  ListUsers  from "./listUsers";
+import ListUsers from "./listUsers";
 
 export const SearchBar: React.FC<{ users: Users[] }> = ({ users }) => {
     const { SearchBarSubmit, handleInputChange, query, filter, FilterUsers } = useLocalContext()

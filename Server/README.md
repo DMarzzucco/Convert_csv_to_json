@@ -1,38 +1,29 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
 ## User Management API
 
-This is a user management API built with NestJS and TypeScript. The API provides a series of endpoints to handle CRUD operations on user data, as well as the ability to upload and download CSV files to import and export user data.
+This is a user management API built with [NestJS](https://docs.nestjs.com/),  [TypeScript](https://www.typescriptlang.org/), [PostgreSQL](https://www.postgresql.org/) and like ORM using [Prisma](https://www.prisma.io/). The API provides a series of endpoints to handle CRUD operations on user data, as well as the ability to upload and download CSV files to import and export user data.
+
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="100" alt="Nest Logo" /></a>
+  <a href="https://www.typescriptlang.org/" target="blank"><img src="https://cdn.iconscout.com/icon/free/png-256/free-typescript-3521774-2945272.png" width="100" alt="TypeScript" style="border-radius:19px; margin-left:10px" /></a>
+  <a href="https://www.postgresql.org/" target="blank"><img src="https://cdn.iconscout.com/icon/free/png-256/free-postgresql-3521647-2945091.png" width="105" alt="PostgreSQL logo" /></a>
+  <a href="https://www.prisma.io/" target="blank"><img src="https://icons.veryicon.com/png/o/business/vscode-program-item-icon/prisma.png" width="106" alt="Prisma Logo" /></a>
+</p>
 
 ## API Documentation
 The API is documented using Swagger. You can access the full documentation by visiting ```/api-docs``` on your server after launching the application.
+
+## Before to Started
+
+Before starting the application you must start the server along with the database, for this you must use Docker to start
+the database ``` docker-compose up db ```.
 
 ## Installation
 
 ```bash
 $ npm install
+
+# if you don't have Nestjs or Nodejs in your local machine:
+$ docker-compose up server
 ```
 
 ## Running the app
@@ -66,13 +57,13 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
-Port: ```3001```
+Port: [http://localhost:3001/api/users](http://localhost:3001/api/users)
 
 ## Requirements
 
-- Nodejs
-- Nestjs
-- PostgreSQL
+- Nodejs (optional)
+- Nestjs (optional)
+- Docker
 
 ## License
 

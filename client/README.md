@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## User Management API
+
+This is an application with a basic interface made with [Next.js 14](https://nextjs.org/docs/)
+and [TailwindCSS](https://tailwindcss.com/) that allows you to upload a CSV file, edit it based on CRUD operations and
+you can download the file again.
+
+<p align="center">
+  <a href="https://nextjs.org/docs/" target="blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWOYMtSMKxVApuqB5E7IjY9KuS15wUF4jtYg&s" width="100" alt="NextJS Logo" style="border-radius:19px" /></a>
+  <a href="https://tailwindcss.com/" target="blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSDKn3vA2YUbXzN0ZC3gALWJ08gJN-Drl15w&s" width="110" alt="TailwindCSS Logo" style="border-radius:19px; margin-left:10px" /></a>
+  <a href="https://www.typescriptlang.org/" target="blank"><img src="https://cdn.iconscout.com/icon/free/png-256/free-typescript-3521774-2945272.png" width="110" alt="TypeScript" style="border-radius:19px; margin-left:10px" /></a>
+</p>
+
+## Before to Started
+
+Before starting the application you must start the server along with the database, for this you must use Docker to start
+the database ``` docker-compose up db ``` and for the server you must enter its folder ```./Server``` and follow the
+procedures indicated in the documentation.
 
 ## Getting Started
 
-First, run the development server:
+Run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# para 
+$ npm run dev
+
+# copile the code
+$ npm run build
+
+# if you don't have NodeJS in your local machine, you can starting with docker.
+$ docker-compose up client  
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Requirements
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Nodejs (optional)
+- Nestjs (optional)
+- Docker
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Made by Dario Marzzucco.
