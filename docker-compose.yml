@@ -40,7 +40,8 @@ services:
       - ./client:/app
       - /client/node_modules
     environment:
-      NEXT_PUBLIC_BACKEND_URL: http://server:3001/api
+      NEXT_PUBLIC_BACKEND_URL: http://host.docker.internal:3001/api
+        # NEXT_PUBLIC_BACKEND_URL: http://server:3001/api
     networks:
       - app-network
 

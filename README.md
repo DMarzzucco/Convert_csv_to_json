@@ -1,4 +1,8 @@
 ## User Management API
+
+![Mi genial imagen](img/Application.jpg)
+
+
 This is an application to upload CSV files and manage them. You can easily delete, update or add new data within the file.
 
 <p align="center">
@@ -10,8 +14,7 @@ This is an application to upload CSV files and manage them. You can easily delet
   <a href="https://www.prisma.io/" target="blank"><img src="https://icons.veryicon.com/png/o/business/vscode-program-item-icon/prisma.png" width="106" alt="Prisma Logo" /></a>
 </p>
 
-> [!NOTE]
-> This application is still in its beta version. Therefore, yes or if you need to use Node js to start the client.
+
 
 > [!IMPORTANT]
 > Follow the steps stated in the documentation to avoid having any problems. If you have any questions, you can consult the documentation of the respective services. ```./client ``` for the front-end and ```./server``` for the back-end.
@@ -20,16 +23,18 @@ This is an application to upload CSV files and manage them. You can easily delet
 The API is documented using Swagger. You can access the full documentation by visiting Port: [/api/#/](http://localhost:3001/api/#/)
 on your server after launching the application.
 
+>[!NOTE]
+> In order for the file to be uploaded and modified, it must comply with these columns.
 
+```SQL
+ID | Nombre | Departamento | Edad | Email
+```
+In case you want to modify the columns, you can enter the ``./Server/Prisma`` folder and change as needed.
 
-## Running the app
+## Intall and Run 
 
 ```bash
-# Running the server and data base
-$ docker-compose up db server
-
-# In to ./client folder and starting the app with
-$ npm run dev
+$ docker-compose up 
 ```
 
 
@@ -37,7 +42,7 @@ Port App: [3000](http://localhost:3000/)
 
 ## Requirements
 
-- Nodejs 
+- Nodejs (optional)
 - Nestjs (optional)
 - Docker
 
