@@ -1,16 +1,16 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, BadRequestException, InternalServerErrorException, Query, NotFoundException, Res } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CSVParserService } from './service/csv-parser.service';
+import { CSVParserService } from '../service/csv-parser.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateUsresDTO, UpdateUsersDTO } from './dto';
-import { UsersService } from './users.service';
+import { CreateUsresDTO, UpdateUsersDTO } from '../dto';
 import { Response } from 'express';
+import { IUsersService } from '../service/interface/IUserService.interface';
 
 @Controller('users')
 export class UsersController {
 
   constructor(
-    private readonly usersService: UsersService,
+    private readonly usersService: IUsersService,
     private readonly csv: CSVParserService
   ) { }
 

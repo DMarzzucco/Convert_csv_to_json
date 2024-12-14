@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
-import { PrismaModules } from '../prisma/prisma.module';
-import { usersValidator } from './validator/users.validator';
-import { CSVParserService } from './service/csv-parser.service';
+import { PrismaModules } from '../../prisma/prisma.module';
+import { usersValidator } from '../validator/users.validator';
+import { CSVParserService } from './csv-parser.service';
 
 describe('UsersService', () => {
   let service: UsersService;

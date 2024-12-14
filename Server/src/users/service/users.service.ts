@@ -1,9 +1,10 @@
 import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Prisma, Task } from "@prisma/client"
-import { FileProps, IUsersService } from './interface/interface.users';
-import { PrismaService } from '../prisma/prisma.service';
-import { usersValidator } from './validator/users.validator';
-import { CreateUsresDTO, UpdateUsersDTO } from './dto';
+import { FileProps} from '../interface/interface.users';
+import { PrismaService } from '../../prisma/prisma.service';
+import { usersValidator } from '../validator/users.validator';
+import { CreateUsresDTO, UpdateUsersDTO } from '../dto';
+import { IUsersService } from './interface/IUserService.interface';
 
 
 @Injectable()

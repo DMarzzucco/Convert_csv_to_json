@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
-import { UsersService } from './users.service';
-import { PrismaModules } from '../prisma/prisma.module';
-import { usersValidator } from './validator/users.validator';
-import { CSVParserService } from './service/csv-parser.service';
+import { UsersService } from '../service/users.service';
+import { PrismaModules } from '../../prisma/prisma.module';
+import { usersValidator } from '../validator/users.validator';
+import { CSVParserService } from '../service/csv-parser.service';
 import { BadRequestException, InternalServerErrorException } from '@nestjs/common';
 
 describe('UsersController', () => {
