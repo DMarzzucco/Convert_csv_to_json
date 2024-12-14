@@ -1,16 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { GlobalFilterException } from './utils/GloablFilterExceptions';
+import { CORS,port } from './constants';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  const corsOptions: CorsOptions = {
-    origin: "http://localhost:3000",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true
-  }
 
   const config = new DocumentBuilder()
     .setTitle('Convert CSV to JSON ')
@@ -21,9 +16,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api', app, document)
 
-  const port = process.env.PORT || 3001;
 
-  app.enableCors(corsOptions);
+  app.useGlobalFilters(new GlobalFilterException());
+  app.enableCors(CORS);
   app.setGlobalPrefix("api")
 
   await app.listen(port);

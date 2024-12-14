@@ -1,17 +1,17 @@
 import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Prisma, Task } from "@prisma/client"
 import { FileProps} from '../interface/interface.users';
-import { PrismaService } from '../../prisma/prisma.service';
 import { usersValidator } from '../validator/users.validator';
 import { CreateUsresDTO, UpdateUsersDTO } from '../dto';
 import { IUsersService } from './interface/IUserService.interface';
+import { IUserRepository } from '../repository/interface/IUserRepository.interface';
 
 
 @Injectable()
 export class UsersService implements IUsersService {
 
   constructor(
-    private prisma: PrismaService,
+    private  repository: IUserRepository,
     private validate: usersValidator
   ) { }
 
@@ -22,7 +22,7 @@ export class UsersService implements IUsersService {
           throw new NotFoundException(`Invalid Data: ${JSON.stringify(row)}`)
         }
         const { Nombre, Edad, Departamento, Email } = row
-        return this.prisma.task.create({ data: { Nombre, Edad, Departamento, Email } })
+        return this.repository.create({ Nombre, Edad, Departamento, Email } )
       })
       return Promise.all(insert)
     } catch (error) {
@@ -32,16 +32,7 @@ export class UsersService implements IUsersService {
 
   async findByQuerie(query: string): Promise<Task[]> {
     try {
-      const result = await this.prisma.task.findMany({
-        where: {
-          OR: [
-            { Nombre: { contains: query, mode: "insensitive" } },
-            { Departamento: { contains: query, mode: "insensitive" } },
-            { Email: { contains: query, mode: "insensitive" } },
-            { Edad: { contains: query, mode: "insensitive" } },
-          ]
-        }
-      })
+      const result = await this.repository.findMany(query);
       if (result.length === 0) {
         throw new NotFoundException("Not found")
       }
@@ -53,7 +44,7 @@ export class UsersService implements IUsersService {
 
   async findAll(): Promise<Task[]> {
     try {
-      return await this.prisma.task.findMany()
+      return await this.repository.findAll();
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
@@ -61,7 +52,7 @@ export class UsersService implements IUsersService {
 
   async findOne(id: number): Promise<Task> {
     try {
-      const result = await this.prisma.task.findUnique({ where: { id: id } })
+      const result = await this.repository.findOne(id);
       if (!result) {
         throw new NotFoundException(`User with id ${id} not found`)
       }
@@ -73,7 +64,7 @@ export class UsersService implements IUsersService {
 
   async create(data: CreateUsresDTO): Promise<CreateUsresDTO> {
     try {
-      const result = await this.prisma.task.create({ data: data });
+      const result = await this.repository.create(data);
       return result;
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -87,7 +78,7 @@ export class UsersService implements IUsersService {
 
   async update(id: number, data: UpdateUsersDTO): Promise<UpdateUsersDTO> {
     try {
-      const result = await this.prisma.task.update({ where: { id: id }, data: data })
+      const result = await this.repository.update(id, data);
       if (!result) {
         throw new NotFoundException(`User with id ${id} not found`)
       }
@@ -99,7 +90,7 @@ export class UsersService implements IUsersService {
 
   async remove(id: number): Promise<Task> {
     try {
-      const result = await this.prisma.task.delete({ where: { id } })
+      const result = await this.repository.delete(id);
       if (!result) {
         throw new NotFoundException(`User with ID ${id} not found`)
       }
@@ -111,7 +102,7 @@ export class UsersService implements IUsersService {
 
   async removeAll(): Promise<void> {
     try {
-      await this.prisma.task.deleteMany()
+      await this.repository.deleteMany();
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
